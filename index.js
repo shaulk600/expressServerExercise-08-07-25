@@ -1,5 +1,9 @@
 
 import express from "express";
+
+const PORT = process.env.PORT || '80' ; 
+const KEY = process.env.KEY || '123' ; 
+
 const app = express();
 app.use(express.json());
 //Part 1: Basic Setup &amp; First Endpoint
@@ -66,7 +70,11 @@ app.post('/action', async (req, res) => {
 
             }
             else if (req.body['action'] === "cat fact") {
-                const response = await fetch("https://api.thecatapi.com/v1/images/search?limit=11&api_key=live_x6BDBCskee0sEyAiO1EwBK5O9qEJOxWJsEFrdzDHNlX6xh6YhnTzCpATq3BbgtiT");
+                const response = await fetch("https://api.thecatapi.com/v1/images/search?limit=11" , {
+                    headers:{
+                        'x-api-key' : KEY
+                    }
+                });
                 const data = await response.json();
                 // console.log(data);
                 if (Array.isArray(data)) {
@@ -100,6 +108,6 @@ app.post('/action', async (req, res) => {
 // }) //end response
 // } // end if
 
-app.listen(3005, () => {
+app.listen(PORT, () => {
     console.log('server running .. ');
 })
